@@ -1,0 +1,21 @@
+We want out player to move around in a 2d grid map
+
+how dowe decide wether they can move in a vertain direction?
+
+what happen if the plaer tries to move East,West,North,South.
+- In order to do this, first we need to know where the player currently is in 5*5 grid map
+
+the map size is 5*5. [0][0]. 
+x x x x x  [4][4] - ending point
+x x x x x
+x x x x x  [2][2] - starting point
+x x x x x
+x x x x x
+
+so we need to determine if a move valid.
+what are the constraints to determining a valid move?
+-player can't go to the locations out of 5*5 grid.
+
+
+
+

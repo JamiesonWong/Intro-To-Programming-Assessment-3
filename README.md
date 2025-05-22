@@ -2,8 +2,3 @@
 group project :D
 
 first repo
-
-
-Hello everyone
-
-THIS IS SECOND PULL REQUEST!!!!!
