@@ -1,4 +1,8 @@
 package game.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Player is a class that represent a user player
  * @author Sanggyun Lee
@@ -8,6 +12,9 @@ public class Player {
     private int col;
     private double hp;
     private double attack;
+    private List<String> inventory = new ArrayList<>();
+
+
 
     public Player(int startRow, int startCol) {
         this.row = startRow;
@@ -32,6 +39,12 @@ public class Player {
     public void getAttack(double additionalAttack) { this.attack += additionalAttack;}
 
     public boolean isAlive() { return this.hp > 0.0;}
+
+    //inventory - obtain items
+    public void addItem(String item) { inventory.add(item); }
+    public List<String> getInventory() { return inventory; }
+
+
 
     }
 
