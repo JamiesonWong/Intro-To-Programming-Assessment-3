@@ -35,10 +35,24 @@ public class GameMap {
         setLocation(4, 3, new Location("Frozen Lake", "An axe is frozen in a tree trunk.", false));
         setLocation(4, 4, new Location("Mystic Library", "A dark figure guards a glowing branch.", false));
 
-        // Add enemy to everdark woods
-        Location darkWoods = getLocation(3, 3);
-        if (darkWoods != null) {
-            darkWoods.setEnemy(new Enemy("Dark Wolf", 50.0, 5.0));
+        // Randomly place Dark Wolf in one of the accessible locations
+        // First, collect all accessible locations except starting point (Forest) 
+        java.util.List<Location> accessibleLocations = new java.util.ArrayList<>();
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++) {
+                Location loc = locations[r][c];
+                // Skip if location is impossible, or if it's Forest(2,2) 
+                if (!loc.isImpossible() && !(r == 2 && c == 2) ) {
+                    accessibleLocations.add(loc);
+                }
+            }
+        }
+
+        // Randomly select a location and add the Dark Wolf
+        if (!accessibleLocations.isEmpty()) {
+            int randomIndex = (int)(Math.random() * accessibleLocations.size());
+            Location randomLocation = accessibleLocations.get(randomIndex);
+            randomLocation.setEnemy(new Enemy("Dark Wolf", 50.0, 5.0));
         }
     }
 
@@ -68,13 +82,6 @@ public class GameMap {
                 }
             }
             System.out.println();
-        }
-        
-        // Print current location description
-        Location currentLocation = getLocation(playerRow, playerCol);
-        if (currentLocation != null && !currentLocation.isImpossible()) {
-            System.out.println("\nCurrent Location:");
-            currentLocation.describe();
         }
     }
 
