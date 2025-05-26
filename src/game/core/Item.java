@@ -1,3 +1,5 @@
+package game.core;
+
 public class Item {
     private String name;
     private String description;
@@ -20,4 +22,4 @@ public class Item {
     public boolean isKeyItem() {
         return isKeyItem;
     }
-}
+} 

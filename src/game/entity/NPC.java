@@ -1,3 +1,5 @@
+package game.entity;
+
 public class NPC {
     private String name;
     private String dialogue;
@@ -17,6 +19,10 @@ public class NPC {
         return dialogue;
     }
 
+    public void talk() {
+        System.out.println(name + ": " + dialogue);
+    }
+
     public boolean isDefeated() {
         return defeated;
     }
@@ -24,4 +30,4 @@ public class NPC {
     public void defeat() {
         this.defeated = true;
     }
-}
+} 

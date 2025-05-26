@@ -7,18 +7,25 @@ public class Enemy {
     private String name;
     private double hp;
     private double attack;
+    private boolean alive;
 
     public Enemy (String name, double hp, double attack) {
         this.name = name;
         this.hp = hp;
         this.attack = attack;
+        this.alive = true;
     }
 
     public String getName() { return this.name;}
     public double getHp() { return this.hp;}
-    public double getAttact() { return this.attack;}
+    public double getAttack() { return this.attack;}
 
-    public void setHp(double damageTaken) { this.hp -= damageTaken; }
-    public boolean isAlive() { return this.hp > 0.0;}
+    public boolean isAlive() { return this.alive; }
    
+    public void takeDamage(double damage) {
+        this.hp -= damage;
+        if (this.hp <= 0) {
+            this.alive = false;
+        }
+    }
 }

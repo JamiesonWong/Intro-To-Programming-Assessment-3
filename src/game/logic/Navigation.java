@@ -15,31 +15,31 @@ import game.entity.Player;
 public class Navigation {
     
     public static boolean isValidMove(Player player, String direction, int mapSize) {
-       int row = player.getRow();
-       int col = player.getCol();
-
-       return switch (direction) {
-        case "north" -> row > 0;
-        case "south" -> row < mapSize - 1; // mapsize - 1 because index start from 0
-        case "east" -> col < mapSize - 1;
-        case "west" -> col > 0;
-        default -> false;
-
-       };
+        int newRow = player.getRow();
+        int newCol = player.getCol();
+        
+        switch (direction) {
+            case "n": newRow--; break;
+            case "s": newRow++; break;
+            case "w": newCol--; break;
+            case "e": newCol++; break;
+            default: return false;
+        }
+        
+        return newRow >= 0 && newRow < mapSize && newCol >= 0 && newCol < mapSize;
     }
 
-
     public static int[] getNewPosition(Player player, String direction) {
-        int row = player.getRow();
-        int col = player.getCol();
+        int newRow = player.getRow();
+        int newCol = player.getCol();
         
-
-        return switch (direction) {
-         case "north" -> new int[] {row -1, col}; // even if we going 'up' but actually we are moving to -1 row.
-         case "south" -> new int[] {row +1, col}; // same as above row + 1 index. when we go the row below.
-         case "east" -> new int[] {row, col +1 };
-         case "west" -> new int[] {row, col -1 };
-         default -> new int[] {row, col};
-        };
+        switch (direction) {
+            case "n": newRow--; break;
+            case "s": newRow++; break;
+            case "w": newCol--; break;
+            case "e": newCol++; break;
+        }
+        
+        return new int[]{newRow, newCol};
     }
 }

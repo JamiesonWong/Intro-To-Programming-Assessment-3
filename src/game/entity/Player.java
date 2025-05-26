@@ -1,51 +1,62 @@
 package game.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import game.core.Inventory;
+import game.core.Item;
 
 /**
  * Player is a class that represent a user player
  * @author Sanggyun Lee
  */
 public class Player {
-    private int row;
-    private int col;
+    private int row, col; // Player position on the map
     private double hp;
     private double attack;
-    private List<String> inventory = new ArrayList<>();
-
-
+    private Inventory inventory;
 
     public Player(int startRow, int startCol) {
         this.row = startRow;
         this.col = startCol;
         this.hp = 100.0;
         this.attack = 10.0;
+        this.inventory = new Inventory();
     }
 
-    public int getRow() { return this.row;}
-    public int getCol() { return this.col;}
-    public double getHp() { return this.hp;}
-    public double getAttack() { return this.attack;}
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public double getHp() { 
+        return this.hp;
+    }
     
-    //this is to update the player's position after a move
+    public double getAttack() { 
+        return this.attack;
+    }
+    
     public void setPosition(int newRow, int newCol) {
         this.row = newRow;
         this.col = newCol;
     }
 
-    public void setHp(double damageTaken) { this.hp -= damageTaken; }
-
-    public void getAttack(double additionalAttack) { this.attack += additionalAttack;}
-
-    public boolean isAlive() { return this.hp > 0.0;}
-
-    //inventory - obtain items
-    public void addItem(String item) { inventory.add(item); }
-    public List<String> getInventory() { return inventory; }
-
-
-
+    public void setHp(double damageTaken) { 
+        this.hp -= damageTaken; 
     }
+
+    public boolean isAlive() { 
+        return this.hp > 0.0;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void addItem(Item item) { 
+        inventory.addItem(item); 
+    }
+}
 
     
