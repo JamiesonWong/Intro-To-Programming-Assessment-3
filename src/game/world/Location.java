@@ -42,6 +42,10 @@ public class Location {
         return impossible;
     }
 
+    public void setImpossible(boolean impossible) {
+        this.impossible = impossible;
+    }
+
     public boolean hasEnemy() {
         return enemy != null;
     }
@@ -69,9 +73,6 @@ public class Location {
             for (Item item : items) {
                 System.out.println("- " + item.getName());
             }
-        }
-        if (npc != null) {
-            System.out.println("There is someone here: " + npc.getName());
         }
     }
 

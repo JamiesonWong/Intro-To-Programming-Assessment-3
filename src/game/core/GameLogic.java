@@ -1,8 +1,8 @@
 package game.core;
 
 import game.entity.Enemy;
-import game.entity.Player;
 import game.entity.NPC;
+import game.entity.Player;
 import game.logic.Combat;
 import game.logic.Navigation;
 import game.world.Location;
@@ -27,11 +27,9 @@ public class GameLogic {
     }
 
     private void setupItemsAndNPCs() {
-        // Forest items and NPC
+        // Forest NPC 
         Location forest = gameMap.getLocation(2, 2);
-        forest.addItem(new Item("Sword", "A sharp blade for fighting enemies.", true));
-        forest.addItem(new Item("Compass", "Shows your location on the map.", false));
-        forest.setNpc(new NPC("Wise Old Man", "Take the sword and find your way."));
+        forest.setNpc(new NPC("Wise Old Man", "Find the items and go to the temple of light."));
 
         // Beach items
         Location beach = gameMap.getLocation(3, 0);
@@ -52,6 +50,15 @@ public class GameLogic {
         System.out.println("Welcome to the Text Adventure!");
         System.out.println("You begin your journey in the Forest.");
 
+        // Give starting items automatically
+        System.out.println("\nThe Wise Old Man greets you as you arrive.");
+        System.out.println("He hands you a sword and a compass.");
+        player.addItem(new Item("Sword", "A sharp blade for fighting enemies.", true));
+        player.addItem(new Item("Compass", "Shows your location on the map.", false));
+        System.out.println("You obtained the Sword!");
+        System.out.println("You obtained the Compass!");
+        System.out.println("(Press 'f' to talk to NPCs)");
+
         while (isRunning && player.isAlive()) {
             Location currentLocation = gameMap.getLocation(player.getRow(), player.getCol());
             currentLocation.describe();
@@ -63,7 +70,6 @@ public class GameLogic {
                 System.out.println("Thank you for playing!");
                 break;
             } else if (userInput.equals("map")) {
-                boolean hasCompass = player.getInventory().hasItem("Compass");
                 gameMap.printMap(player.getRow(), player.getCol());
             } else if (userInput.equals("hp")) {
                 System.out.println(player.getHp());
@@ -88,10 +94,24 @@ public class GameLogic {
                 }
 
                 player.setPosition(newRow, newCol);
-                System.out.println("You have entered: " + newLocation.getName());
+                System.out.println("\nYou have entered: " + newLocation.getName());
 
                 // Automatic item pickup for basic items
                 giveBasicItems(newLocation);
+
+                // Show Shadow Beast dialogue and hint in Mystic Library
+                if (newLocation.getName().equals("Mystic Library")) {
+                    System.out.println("Shadow Beast: Grrrrr...");
+                    System.out.println("(Press 'f' to talk to NPCs)");
+                }
+
+                if (newLocation.getName().equals("Beach")) {
+                    System.out.println("(Press 'f' to dig into the ground)");
+                }
+
+                if (newLocation.getName().equals("Broken Bridge")) {
+                    System.out.println("(Press 'f' to repair the bridge)");
+                }
 
                 if (newLocation.hasEnemy()) {
                     Enemy enemy = newLocation.getEnemy();
@@ -125,18 +145,35 @@ public class GameLogic {
             }
         }
 
+        // Repair Broken Bridge
+        if (location.getName().equalsIgnoreCase("Broken Bridge")) {
+            if (player.getInventory().hasItem("Branch")) {
+                System.out.println("You repair the bridge, you can cross the bridge.");
+                location.setImpossible(false); 
+                
+            } else {
+                System.out.println("The bridge is broken. Maybe something long and sturdy can fix it.");
+        }
+    }
+
         // Handle NPC interaction
         if (location.getNpc() != null && !location.getNpc().isDefeated()) {
             NPC npc = location.getNpc();
-            npc.talk();
 
-            if (npc.getName().equals("Shadow Beast")) {
+            if (npc.getName().equals("Wise Old Man")) {
+                npc.talk();  // Just show the dialogue
+            } else if (npc.getName().equals("Shadow Beast")) {
                 if (player.getInventory().hasItem("Sword")) {
-                    System.out.println("You defeated the Shadow Beast!");
-                    npc.defeat();
+                    npc.talk();  // "Grrrrr..."
+                    System.out.println("The Shadow Beast sees your sword and backs away...");
+                    System.out.println("It leaves behind a glowing branch.");
+                    player.addItem(new Item("Branch", "Could help bridge a gap.", false));
+                    System.out.println("You obtained the Branch!");
+                    npc.defeat();  // Mark interaction as complete
                 } else {
-                    System.out.println("You were defeated. Game over.");
-                    isRunning = false;
+                    System.out.println("The Shadow Beast looks dangerous...");
+                    npc.talk();  // "Grrrrr..."
+                    System.out.println("Maybe you should find a weapon first. The Wise Old Man might help.");
                 }
             }
         }
