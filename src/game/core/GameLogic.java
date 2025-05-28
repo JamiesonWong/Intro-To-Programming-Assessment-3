@@ -21,11 +21,24 @@ public class GameLogic {
 
     public GameLogic() {
         this.gameMap = new GameMap(MAP_SIZE);
-        this.player = new Player(2, 2);
-        this.isRunning = true;
+        this.player = new Player(2, 2); // Starting position in the Forest
+        this.isRunning = true; // Game is running by default
         setupItemsAndNPCs();
     }
 
+        // Prints the controls for the game
+        public void printControls() {
+        System.out.println("Use W (up), A (left), S (down), D (right) to move.");
+        System.out.println("Press E to check inventory.");
+        System.out.println("Press F to interact with the environment.");
+        System.out.println("Type 'quit' anytime to exit the game.");
+        System.out.println();
+    }
+
+    /**
+     * Sets up the initial items and NPCs in the game world.
+     * This method populates the game map with items and NPCs at specific locations.
+     */
     private void setupItemsAndNPCs() {
         // Forest NPC 
         Location forest = gameMap.getLocation(2, 2);
@@ -45,10 +58,16 @@ public class GameLogic {
         library.setNpc(new NPC("Shadow Beast", "Grrrrr..."));
     }
 
+    /**
+     * Starts the game loop, handles user input, and manages game state.
+     * This method runs until the player quits or the game ends.
+     */
     public void start() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the Text Adventure!");
+        printControls(); // Print game controls for the user
         System.out.println("You begin your journey in the Forest.");
+        
 
         // Give starting items automatically
         System.out.println("\nThe Wise Old Man greets you as you arrive.");
@@ -63,7 +82,7 @@ public class GameLogic {
             Location currentLocation = gameMap.getLocation(player.getRow(), player.getCol());
             currentLocation.describe();
 
-            System.out.println("\nCommand (n/e/s/w/q/map/hp/i/f): ");
+            System.out.println("\nCommand (w/a/s/d/q/map/hp/i/f): ");
             String userInput = scanner.nextLine().toLowerCase();
 
             if (userInput.equals("q")) {
@@ -83,6 +102,8 @@ public class GameLogic {
                     continue;
                 }
 
+
+                // Handle movement
                 int[] nextIntendedPosition = Navigation.getNewPosition(player, userInput);
                 int newRow = nextIntendedPosition[0];
                 int newCol = nextIntendedPosition[1];

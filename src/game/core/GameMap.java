@@ -76,13 +76,18 @@ public class GameMap {
                 if (r == playerRow && c == playerCol) {
                     System.out.print("[P]");
                 } else if (!locations[r][c].isImpossible()) {
-                    System.out.print("[X]");
+                    System.out.print("[ ]"); //space represents accessible locations
                 } else {
-                    System.out.print("[ ]");
+                    System.out.print("[X]"); //x represents blocked locations
                 }
             }
             System.out.println();
         }
+        System.out.println();
+        System.out.println("Legend:");
+        System.out.println("[P] - Player position");
+        System.out.println("[ ] - Accessible area");
+        System.out.println("[X] - Blocked area");
     }
 
     public int getSize() {

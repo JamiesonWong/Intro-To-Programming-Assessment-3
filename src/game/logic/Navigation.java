@@ -19,10 +19,10 @@ public class Navigation {
         int newCol = player.getCol();
         
         switch (direction) {
-            case "n": newRow--; break;
+            case "w": newRow--; break;
             case "s": newRow++; break;
-            case "w": newCol--; break;
-            case "e": newCol++; break;
+            case "a": newCol--; break;
+            case "d": newCol++; break;
             default: return false;
         }
         
@@ -34,10 +34,10 @@ public class Navigation {
         int newCol = player.getCol();
         
         switch (direction) {
-            case "n": newRow--; break;
+            case "w": newRow--; break;
             case "s": newRow++; break;
-            case "w": newCol--; break;
-            case "e": newCol++; break;
+            case "a": newCol--; break;
+            case "d": newCol++; break;
         }
         
         return new int[]{newRow, newCol};
